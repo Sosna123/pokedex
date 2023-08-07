@@ -1,16 +1,16 @@
 <template>
 	<div id="container">
-		<h1 id="title">Pokedex</h1>
+		<h1 id="title">Poke-search</h1>
 
 		<!-- * input and button -->
 		<div id="form">
 			<input type="text" placeholder="Type in pokemon name/index" v-model="search">
-			<!-- search & random -->
+			<!-- * search & random -->
 			<br>
 			<button @click="updateData()">search</button>
 			<button @click="search = Math.trunc(Math.random() * 1010); updateData()">random</button>
 
-			<!-- previous & next -->
+			<!-- * previous & next -->
 			<br>
 			<button @click="prevPokemon(id)">previous</button>
 			<button @click="nextPokemon(id)">next</button>
@@ -18,25 +18,24 @@
 
 		<!-- * pokemon stats -->
 		<div id="pokemon-stats" v-if="dataFetched">
-			<div id="image" v-if="!showShinyImage">
-				<img :src="imgSrc" alt="pokemon image">
-				<p>normal</p>
-			</div>
-			<div id="shinyImage" v-else>
-				<img :src="imgSrcShiny" alt="pokemon image">
-				<p>shiny</p>
-			</div>
-			<button @click="showShinyImage = !showShinyImage">change image</button>
 			
-			<p>Pokemon name: {{ name }}</p>
-			<p>Pokemon id: {{ id }}</p>
+			<span>
+				<h1 id="name-display">{{ name }}</h1>
+				<h2 id="id-display">#{{ id }}</h2>
+			</span>
+			<img :src="imgSrc" alt="pokemon image">
 			
 			<!-- * If pokemon has 2 types -->
 			<div v-if="type2">
-				<p class="type">Pokemon types: {{ type1 }} / {{ type2 }}</p> 
+				<p class="type">{{ type1 }} / {{ type2 }}</p> 
 			</div>
 			<div v-else>
-				<p class="type">Pokemon types: {{ type1 }}</p> 
+				<p class="type">{{ type1 }}</p> 
+			</div>
+
+			<p>Stats:</p>
+			<div v-for="stat in stats" :key='stat'>
+				<p>base {{ stat.stat.name }} - {{ stat.base_stat }}</p>
 			</div>
 		</div>
 
@@ -66,6 +65,7 @@ export default {
 		let type2 = ref(null)
 		let imgSrc = ref(null)
 		let imgSrcShiny = ref(null)
+		let stats = ref([])
 
 		// * fetching data
 		const fetchData = async () => {
@@ -103,7 +103,11 @@ export default {
 				}
 
 				imgSrc.value = data.sprites.front_default
-				imgSrcShiny.value = data.sprites.front_shiny
+
+				stats.value = [];
+				data.stats.forEach((stat) => {
+					stats.value.push(stat)
+				})
 
 				// * other vars
 				dataFetched.value = true
@@ -129,8 +133,8 @@ export default {
 		})
 
 		return{
-			search, showShinyImage, dataFetched, updateData, nextPokemon, prevPokemon,
-			name, id, type1, type2, imgSrc, imgSrcShiny
+			search, dataFetched, updateData, nextPokemon, prevPokemon,
+			name, id, type1, type2, imgSrc, stats
 		}
 	}
 }
@@ -139,7 +143,7 @@ export default {
 <style>
 /* ! body itp. */
 body{
-	background: white;
+	background: black;
 	width: 100%;
 	height: 100%;
 	padding: 0px;
@@ -158,16 +162,16 @@ div{
 }
 
 div#container{
-	background: rgba(0, 0, 0, 0.8);
+	background: rgba(255, 255, 255, 0.2);
 	width: 600px; 
-	height: 600px;
+	height: 1000px;
 	border-radius: 40px;
 	padding: 25px;
 	margin: auto;
 }
 
 /* ! content */
-p, h1, h2, button{
+p, h1, h2, h3, h4, h5, h6, button{
 	color: white;
 }
 
@@ -206,5 +210,16 @@ div#form button:active{
 
 div#pokemon-stats img{
 	object-fit: contain;
+	background-color: rgba(255, 255, 255, 0.5);
+	border-radius: 5px;
+	padding: 5px;
+}
+
+h1#name-display{
+	text-transform: capitalize;
+	font-size: 32px;
+}
+h2#id-display{
+	font-size: 16px;
 }
 </style>
