@@ -1,9 +1,9 @@
 <template>
 	<div id="container">
-		<h1 id="title">Poke-search</h1>
-
 		<!-- * input and button -->
 		<div id="form">
+			<h1 id="title">Poke-search</h1>
+
 			<input type="text" placeholder="Type in pokemon name/index" v-model="search">
 			<!-- * search & random -->
 			<br>
@@ -16,26 +16,29 @@
 			<button @click="nextPokemon(id)">next</button>
 		</div>
 
+		<hr>
+
 		<!-- * pokemon stats -->
-		<div id="pokemon-stats" v-if="dataFetched">
-			
-			<span>
+		<div id="pokemon-info" v-if="dataFetched">
+			<div id="name-id-type">
 				<h1 id="name-display">{{ name }}</h1>
 				<h2 id="id-display">#{{ id }}</h2>
-			</span>
-			<img :src="imgSrc" alt="pokemon image">
-			
-			<!-- * If pokemon has 2 types -->
-			<div v-if="type2">
-				<p class="type">{{ type1 }} / {{ type2 }}</p> 
-			</div>
-			<div v-else>
-				<p class="type">{{ type1 }}</p> 
+
+				<!-- * If pokemon has 2 types -->
+				<div v-if="type2">
+					<h3 class="type">{{ type1 }} / {{ type2 }}</h3> 
+				</div>
+				<div v-else>
+					<h3 class="type">{{ type1 }}</h3> 
+				</div>
+				
+				<img :src="imgSrc" alt="pokemon image">
 			</div>
 
-			<p>Stats:</p>
-			<div v-for="stat in stats" :key='stat'>
-				<p>base {{ stat.stat.name }} - {{ stat.base_stat }}</p>
+			<div id="stats">
+				<div v-for="stat in stats" :key='stat'>
+					<p>Base {{ stat.stat.name }} - {{ stat.base_stat }}</p>
+				</div>
 			</div>
 		</div>
 
@@ -56,15 +59,13 @@ export default {
 		let search = ref('')
 		let pastSearch = ref('')
 		let dataFetched = ref(false)
-		let showShinyImage = ref(false)
 		
-		// * pokemon stats
+		// * pokemon info
 		let name = ref(null)
 		let id = ref(null)
 		let type1 = ref(null)
 		let type2 = ref(null)
 		let imgSrc = ref(null)
-		let imgSrcShiny = ref(null)
 		let stats = ref([])
 
 		// * fetching data
@@ -91,7 +92,7 @@ export default {
 					return false;
 				}
 				
-				// * pokemon stats
+				// * pokemon info
 				name.value = data.name
 				id.value = data.id
 					// * types
@@ -143,7 +144,7 @@ export default {
 <style>
 /* ! body itp. */
 body{
-	background: black;
+	background: white;
 	width: 100%;
 	height: 100%;
 	padding: 0px;
@@ -152,22 +153,47 @@ body{
 }
 
 *{
-	font-family: Arial;
+	font-family: arial;
 }
 
 /* ! divs */
-div{
-	margin: 0px auto;
-	text-align: center;
-}
 
 div#container{
-	background: rgba(255, 255, 255, 0.2);
+	background: rgb(50, 50, 50);
 	width: 600px; 
-	height: 1000px;
+	max-height: 850px;
+	height: 100%;
 	border-radius: 40px;
 	padding: 25px;
 	margin: auto;
+}
+
+div#form{
+	background: rgba(75, 75, 75, .5);
+	padding: 5px;
+	border-radius: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+div#name-id-type{
+	background: rgba(75, 75, 75, .5);
+	padding: 5px;
+	border-radius: 20px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+div#stats{
+	display: block;
+	background: rgba(75, 75, 75, .5);
+	padding: 10px 20px;
+	border-radius: 20px;
+	width: 220px;
+}
+
+div#loading{
+	text-align: center;
 }
 
 /* ! content */
@@ -189,7 +215,7 @@ div#form input{
 	color: black;
 }
 
-div#form button, div#pokemon-stats button{
+div#form button, div#pokemon-info button{
 	padding: 10px;
 	border-radius: 15px;
 	width: 100px;
@@ -208,18 +234,26 @@ div#form button:active{
 	background: rgb(211, 211, 211);
 }
 
-div#pokemon-stats img{
+div#pokemon-info img{
 	object-fit: contain;
-	background-color: rgba(255, 255, 255, 0.5);
+	background-color: rgb(155, 155, 155);
 	border-radius: 5px;
 	padding: 5px;
 }
 
-h1#name-display{
+div#name-id-type h1{
 	text-transform: capitalize;
 	font-size: 32px;
+	margin-bottom: 0;
 }
-h2#id-display{
-	font-size: 16px;
+
+div#name-id-type h2{
+	font-size: 24px;
+	margin: 0;
+}
+
+div#name-id-type h3{
+	font-size: 20px;
+	margin-top: 0;
 }
 </style>
