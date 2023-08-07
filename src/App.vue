@@ -5,13 +5,28 @@
 		<!-- * input and button -->
 		<div id="form">
 			<input type="text" placeholder="Type in pokemon name/index" v-model="search">
+			<!-- search & random -->
 			<br>
-			<button @click="updateData(search)">search</button>
-			<button @click="updateData(Math.trunc(Math.random() * 100))">random</button>
+			<button @click="updateData()">search</button>
+			<button @click="search = Math.trunc(Math.random() * 1010); updateData()">random</button>
+
+			<!-- previous & next -->
+			<br>
+			<button @click="prevPokemon(id)">previous</button>
+			<button @click="nextPokemon(id)">next</button>
 		</div>
 
 		<!-- * pokemon stats -->
 		<div id="pokemon-stats" v-if="dataFetched">
+			<div id="image" v-if="!showShinyImage">
+				<img :src="imgSrc" alt="pokemon image">
+				<p>normal</p>
+			</div>
+			<div id="shinyImage" v-else>
+				<img :src="imgSrcShiny" alt="pokemon image">
+				<p>shiny</p>
+			</div>
+			<button @click="showShinyImage = !showShinyImage">change image</button>
 			
 			<p>Pokemon name: {{ name }}</p>
 			<p>Pokemon id: {{ id }}</p>
@@ -23,8 +38,6 @@
 			<div v-else>
 				<p class="type">Pokemon types: {{ type1 }}</p> 
 			</div>
-			<img :src="imgSrc" alt="pokemon image">
-			<img :src="imgSrcShiny" alt="pokemon image">
 		</div>
 
 		<!-- * loading -->
@@ -42,8 +55,9 @@ export default {
   	name: 'App',
 	setup(){
 		let search = ref('')
+		let pastSearch = ref('')
 		let dataFetched = ref(false)
-		let error = ref(false)
+		let showShinyImage = ref(false)
 		
 		// * pokemon stats
 		let name = ref(null)
@@ -54,19 +68,25 @@ export default {
 		let imgSrcShiny = ref(null)
 
 		// * fetching data
-		const fetchData = async (search) => {
-			if(search == ''){
+		const fetchData = async () => {
+			if(search.value == ''){
 				return null;
 			}
 			dataFetched.value = false;
-			const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${search}`);
-			const data = await promise.json();
-			return data;
+			const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${search.value}`);
+			try{
+				const data = await promise.json();
+				pastSearch.value = search.value;
+				search.value = '';
+				return data;
+			}catch{
+				return false;
+			}
 		}
 
 		// * using fetched data
-		const updateData = (search) => {
-			fetchData(search).then((data) => {
+		const updateData = () => {
+			fetchData().then((data) => {
 				if(!data){
 					return false;
 				}
@@ -87,18 +107,29 @@ export default {
 
 				// * other vars
 				dataFetched.value = true
-				// search.value = ''
 			})
 		}
 
+		const nextPokemon = (id) => {
+			search.value = id + 1;
+			updateData()
+			search.value = '';
+		}
+
+		const prevPokemon = (id) => {
+			search.value = id - 1;
+			updateData()
+			search.value = '';
+		}
+
 		onMounted(() => {
-			search.value = Math.trunc(Math.random() * 100)
-			updateData(search.value)
+			search.value = Math.trunc(Math.random() * 1010)
+			updateData()
 			search.value = ''
 		})
 
 		return{
-			search, error, dataFetched, updateData,
+			search, showShinyImage, dataFetched, updateData, nextPokemon, prevPokemon,
 			name, id, type1, type2, imgSrc, imgSrcShiny
 		}
 	}
@@ -128,8 +159,8 @@ div{
 
 div#container{
 	background: rgba(0, 0, 0, 0.8);
-	width: 500px; 
-	height: 500px;
+	width: 600px; 
+	height: 600px;
 	border-radius: 40px;
 	padding: 25px;
 	margin: auto;
@@ -153,20 +184,27 @@ div#form input{
 	margin: 4px 5px;
 	color: black;
 }
-div#form button{
+
+div#form button, div#pokemon-stats button{
 	padding: 10px;
 	border-radius: 15px;
 	width: 100px;
 	text-align: center;
 	border: none;
-	margin: 0px 2px;
+	margin: 2px 2px;
 	color: black;
 	background: rgb(155, 155, 155);
 }
+
 div#form button:hover{ 
 	background: rgb(183, 183, 183);
 }
+
 div#form button:active{
 	background: rgb(211, 211, 211);
+}
+
+div#pokemon-stats img{
+	object-fit: contain;
 }
 </style>
