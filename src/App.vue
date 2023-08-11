@@ -143,6 +143,13 @@ export default {
 
 <style>
 /* ! body itp. */
+#app{
+	width: 100%;
+	height: 100%;
+	padding: 0px;
+	margin: 0px;
+}
+
 body{
 	background: rgb(100, 255, 100);
 	width: 100%;
@@ -175,6 +182,10 @@ div#container{
 	border-radius: 40px;
 	padding: 25px;
 	margin: auto;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 div#form{
@@ -194,7 +205,7 @@ div#name-id-type{
 }
 
 div#stats{
-	display: block;
+	display: inline-block;
 	background: rgba(75, 75, 75, .5);
 	padding: 10px 20px;
 	border-radius: 20px;
@@ -257,12 +268,14 @@ div#pokemon-info img{
 	background-color: rgb(155, 155, 155);
 	border-radius: 5px;
 	padding: 5px;
+	margin-bottom: 20px;
 }
 
 div#name-id-type h1{
 	text-transform: capitalize;
 	font-size: 32px;
 	margin-bottom: 0;
+	margin-top: 20px;
 }
 
 div#name-id-type h2{
