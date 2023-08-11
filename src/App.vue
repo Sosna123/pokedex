@@ -19,7 +19,7 @@
 		<hr>
 
 		<!-- * pokemon stats -->
-		<div id="pokemon-info" v-if="dataFetched"> <!-- dataFetched -->
+		<div id="pokemon-info" v-if="dataFetched">
 			<div id="name-id-type">
 				<h1 id="name-display">{{ name }}</h1>
 				<h2 id="id-display">#{{ id }}</h2>
