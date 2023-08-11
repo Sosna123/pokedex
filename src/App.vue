@@ -19,7 +19,7 @@
 		<hr>
 
 		<!-- * pokemon stats -->
-		<div id="pokemon-info" v-if="dataFetched">
+		<div id="pokemon-info" v-if="dataFetched"> <!-- dataFetched -->
 			<div id="name-id-type">
 				<h1 id="name-display">{{ name }}</h1>
 				<h2 id="id-display">#{{ id }}</h2>
@@ -44,7 +44,7 @@
 
 		<!-- * loading -->
 		<div id="loading" v-else>
-			<h2>loading...</h2>
+			<div id="loadingIcon"></div>
 		</div>
 	</div>
 	
@@ -144,7 +144,7 @@ export default {
 <style>
 /* ! body itp. */
 body{
-	background: white;
+	background: rgb(100, 255, 100);
 	width: 100%;
 	height: 100%;
 	padding: 0px;
@@ -156,13 +156,22 @@ body{
 	font-family: arial;
 }
 
+@keyframes loadingDot{
+	from {
+		background-color: rgba(255, 255, 255, 1)
+	}
+	to {
+		background-color: rgba(255, 255, 255, 0)
+	}
+	
+} 
+
 /* ! divs */
 
 div#container{
 	background: rgb(50, 50, 50);
 	width: 600px; 
-	max-height: 850px;
-	height: 100%;
+	height: 800px;
 	border-radius: 40px;
 	padding: 25px;
 	margin: auto;
@@ -194,6 +203,15 @@ div#stats{
 
 div#loading{
 	text-align: center;
+}
+
+div#loadingIcon{
+	margin: 20px auto;
+	height: 100px;
+	width: 100px;
+	background-color: white;
+	border-radius: 50px;
+	animation: 2s infinite alternate loadingDot;
 }
 
 /* ! content */
