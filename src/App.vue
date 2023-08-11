@@ -177,10 +177,10 @@ body{
 
 div#container{
 	background: rgb(50, 50, 50);
-	width: 600px; 
-	height: 800px;
-	border-radius: 40px;
-	padding: 25px;
+	width: 37.5em; 
+	height: 50em;
+	border-radius: 2.5em;
+	padding: 1.5625em;
 	margin: auto;
 	position: absolute;
     top: 50%;
@@ -190,26 +190,26 @@ div#container{
 
 div#form{
 	background: rgba(75, 75, 75, .5);
-	padding: 5px;
-	border-radius: 20px;
-	margin-bottom: 10px;
+	padding: 0.3125em;
+	border-radius: 1.25em;
+	margin-bottom: 0.625em;
 	text-align: center;
 }
 
 div#name-id-type{
 	background: rgba(75, 75, 75, .5);
-	padding: 5px;
-	border-radius: 20px;
-	margin-bottom: 10px;
+	padding: 0.3125em;
+	border-radius: 1.25em;
+	margin-bottom: 0.625em;
 	text-align: center;
 }
 
 div#stats{
 	display: inline-block;
 	background: rgba(75, 75, 75, .5);
-	padding: 10px 20px;
-	border-radius: 20px;
-	width: 220px;
+	padding: 0.625em 1.25em;
+	border-radius: 1.25em;
+	width: 13.75em;
 }
 
 div#loading{
@@ -217,12 +217,23 @@ div#loading{
 }
 
 div#loadingIcon{
-	margin: 20px auto;
-	height: 100px;
-	width: 100px;
+	margin: 1.25em auto;
+	height: 6.25em;
+	width: 6.25em;
 	background-color: white;
-	border-radius: 50px;
+	border-radius: 3.125em;
 	animation: 2s infinite alternate loadingDot;
+}
+
+@media (max-width: 660px) or (max-height: 860px){
+    body{
+		font-size: 10px;
+	}
+
+	div#container{
+		width: 37.5em; 
+		height: 60em;
+	}
 }
 
 /* ! content */
@@ -231,26 +242,26 @@ p, h1, h2, h3, h4, h5, h6, button{
 }
 
 h1#title{
-	font-size: 50px;
+	font-size: 3.125em;
 }
 
 div#form input{
-	padding: 10px;
-	border-radius: 15px;
-	width: 200px;
+	padding: 0.625em;
+	border-radius: 0.9375em;
+	width: 12.5em;
 	text-align: center;
-	border: lightgrey 2px solid;
-	margin: 4px 5px;
+	border: lightgrey 0.125em solid;
+	margin: 0.25em 0.3125em;
 	color: black;
 }
 
 div#form button, div#pokemon-info button{
-	padding: 10px;
-	border-radius: 15px;
-	width: 100px;
+	padding: 0.625em;
+	border-radius: 0.9375em;
+	width: 6.25em;
 	text-align: center;
 	border: none;
-	margin: 2px 2px;
+	margin: 0.125em 0.125em;
 	color: black;
 	background: rgb(155, 155, 155);
 }
@@ -266,25 +277,25 @@ div#form button:active{
 div#pokemon-info img{
 	object-fit: contain;
 	background-color: rgb(155, 155, 155);
-	border-radius: 5px;
-	padding: 5px;
-	margin-bottom: 20px;
+	border-radius: 0.3125em;
+	padding: 0.3125em;
+	margin-bottom: 1.25em;
 }
 
 div#name-id-type h1{
 	text-transform: capitalize;
-	font-size: 32px;
+	font-size: 2em;
 	margin-bottom: 0;
-	margin-top: 20px;
+	margin-top: 1.25em;
 }
 
 div#name-id-type h2{
-	font-size: 24px;
+	font-size: 1.5em;
 	margin: 0;
 }
 
 div#name-id-type h3{
-	font-size: 20px;
+	font-size: 1.25em;
 	margin-top: 0;
 }
 </style>
